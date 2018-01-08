@@ -6,10 +6,10 @@ import { Character } from './character.class'
 import { LevelObject } from './level-object.class';
 
 export class Renderer {
-
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
   renderData: RenderData
+  public landscape: boolean
   public updating: boolean = false
   public activeCharacter: Character
   public activeLevel: Level
@@ -26,14 +26,14 @@ export class Renderer {
   }
 
   private setCanvasDimentions() {
-    let landscape = window.innerHeight < window.innerWidth
-    let resolutionScale = (landscape ? window.innerHeight : window.innerWidth) / this.renderData.resolution.width
+    this.landscape = window.innerHeight < window.innerWidth
+    let resolutionScale = (this.landscape ? window.innerHeight : window.innerWidth) / this.renderData.resolution.width
     let small = this.renderData.resolution.width
-    let large = !landscape ? window.innerHeight : window.innerWidth
+    let large = !this.landscape ? window.innerHeight : window.innerWidth
     large = Math.floor(large / resolutionScale)
-    this.canvas.height = landscape ? small : large
-    this.canvas.width = landscape ? large : small
-    this.renderData.resolution.height = small
+    this.canvas.height = this.landscape ? small : large
+    this.canvas.width = this.landscape ? large : small
+    this.renderData.resolution.height = large
   }
 
   public startUpdating(level: Level, character: Character) {
@@ -45,9 +45,13 @@ export class Renderer {
 
   public update(): void {
     if (this.renderData.loadedAllGraphics) {
-      let offsetX = Math.floor(this.renderData.resolution.width / 2)
-      let offsetY = Math.floor(this.renderData.resolution.height / 2)
+      let halfWidth = Math.floor(this.renderData.resolution.width / 2)
+      let halfHeight = Math.floor(this.renderData.resolution.height / 2)
+      
+      let offsetX = this.landscape ? halfHeight : halfWidth
+      let offsetY = this.landscape ? halfWidth : halfHeight
       let offset = new Vector(offsetX, offsetY)
+
       let size = this.renderData.tileSize
       let viewOffset = this.activeCharacter.pos.copy().multiply(size).sub(offset)
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)

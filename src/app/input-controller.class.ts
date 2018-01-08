@@ -26,20 +26,20 @@ export class InputController {
     })
   }
 
-  private touchstart(e) {
+  private touchstart(e: TouchEvent) {
     let touch = e.touches[0]
     this.touchPos = new Vector(touch.clientX, touch.clientY)
   }
   
-  private touchend(e) {
+  private touchend(e: TouchEvent) {
     this.touchPos = undefined
   }
   
-  private mousedown(e) {
+  private mousedown(e: MouseEvent) {
     this.touchPos = new Vector(e.clientX, e.clientY)
   }
 
-  private mouseup(e) {
+  private mouseup(e: MouseEvent) {
     this.touchPos = undefined
   }
 
