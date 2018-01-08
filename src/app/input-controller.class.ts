@@ -3,12 +3,12 @@ import { ControlData } from "../assets/control-data";
 import { Vector } from "./vector.class";
 
 export class InputController {
-
   character: Character
   listener: any
   controlData: ControlData = new ControlData()
   touchPos: Vector
   canvas: HTMLCanvasElement
+  moveDir: string
 
   constructor(uiCanvas: HTMLCanvasElement, character: Character) {
     this.character = character
@@ -25,7 +25,7 @@ export class InputController {
     this.canvas.addEventListener('touchmove', this.touchmove.bind(this))
 
     window.addEventListener('blur', a => {
-      this.touchPos = undefined
+      this.stopMoving()
     })
   }
 
@@ -41,11 +41,11 @@ export class InputController {
   }
   
   private touchend(e: TouchEvent) {
-    this.touchPos = undefined
+    this.stopMoving()
   }
 
   private mouseup(e: MouseEvent) {
-    this.touchPos = undefined
+    this.stopMoving()
   }
 
   private touchmove(e: TouchEvent) {
@@ -60,23 +60,30 @@ export class InputController {
     this.screenMove()
   }
 
+  private stopMoving() {
+    this.touchPos = undefined
+    this.moveDir = undefined
+    this.character.triggerInput('stop-moving')
+  }
+
   private screenMove() {
     if (!this.touchPos) return
-    let dir: string
+    let dir = this.getTouchDir()
+    if (this.moveDir !== dir) {
+      this.character.triggerInput('move-' + dir)
+      this.moveDir = dir
+    }
+  }
+
+  private getTouchDir(): string {
     let x = (window.innerWidth / 2) - this.touchPos.x
     let y = (window.innerHeight / 2) - this.touchPos.y
 
     if (Math.abs(x) > Math.abs(y)) {
-      dir = x < 0 ? 'right' : 'left'
+      return x < 0 ? 'right' : 'left'
     } else {
-      dir = y < 0 ? 'down' : 'up'
+      return y < 0 ? 'down' : 'up'
     }
-
-    this.character.triggerInput('move-' + dir)
-
-    setTimeout(a => {
-      this.screenMove()
-    }, 100)
   }
 
   public stopListening() {

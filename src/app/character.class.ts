@@ -6,11 +6,14 @@ export class Character {
   public name: string
   public pos: Vector
   public invertDir: boolean = false
-  public currentMove: string
   public level: Level
   characterData: CharacterData = new CharacterData()
   public state: string = 'idle'
   private intervals: any = {}
+  private isWalking: boolean = false
+  private canWalk: boolean = true
+  private walkingInterval: any
+  private walkingDir: Vector
 
   constructor(name: string) {
     this.name = name
@@ -18,46 +21,58 @@ export class Character {
 
   public triggerInput(action: string) {
     if (action.substring(0,4) === 'move') {
-      if (this.currentMove) return
-      if (this.moveInDir(action.substring(5))) {
-        this.currentMove = action
-        this.state = 'walking'
-        setTimeout(a => {
-          this.state = 'idle'
-          this.currentMove = null
-        }, this.characterData.moveTime)
-      }
+      if (this.isWalking) this.changeWalkingDir(action.substring(5))
+      else this.startWalkLoop(action.substring(5))
+    } else if (action === 'stop-moving') {
+      this.stopWalkLoop()
     } else {
       console.error('Action not supported')
     }
   }
 
-  public triggerInputEndless(action: string) {
-    if (this.intervals[action]) this.triggerInputEnd(action)
-    this.intervals[action] = setInterval(a => {
-      this.triggerInput(action)
-    }, 1000 / 30)
-  }
-
-  public triggerInputEnd(action: string) {
-    clearInterval(this.intervals[action])
-  }
-
-  private moveInDir(dir: string): boolean {
-    if (dir === 'left') this.invertDir = true
-    else if (dir === 'right') this.invertDir = false
-    
-    let diff = new Vector()
-    if (dir === 'up') diff.y -= 1
-    else if (dir === 'down') diff.y += 1
-    if (dir === 'left') diff.x -= 1
-    else if (dir === 'right') diff.x += 1
-
-    if (this.level.tileWalkable(this.pos.add(diff))) {
-      this.pos = this.pos.add(diff)
+  private MoveInDir(dir: Vector): boolean {
+    let canMove = this.level.tileWalkable(this.pos.add(dir))
+    if (canMove) {
+      this.pos = this.pos.add(dir)
       this.level.processPos(this)
-      return true
     }
-    return false
+    return canMove
+  }
+
+  private changeWalkingDir(dir: string) {
+    this.walkingDir = this.dirToVec(dir)
+  }
+
+  private startWalkLoop(dir: string) {
+    if (this.isWalking || !this.canWalk) return
+    this.walkingDir = this.dirToVec(dir)
+    this.isWalking = true
+    this.canWalk = false
+    this.processMove(this.walkingDir)
+    this.walkingInterval = setInterval(a => {
+      if (!this.isWalking) {
+        this.canWalk = true
+        clearInterval(this.walkingInterval)
+      } else this.processMove(this.walkingDir)
+    }, this.characterData.moveTime)
+  }
+
+  private processMove(vec: Vector) {
+    let moved = this.MoveInDir(vec)
+    this.state = moved ? 'walking' : 'idle'
+  }
+
+  private stopWalkLoop() {
+    this.isWalking = false
+    this.state = 'idle'
+  }
+
+  private dirToVec(dir: string): Vector {
+    let vec = new Vector()
+    if (dir === 'up') vec.y -= 1
+    else if (dir === 'down') vec.y += 1
+    if (dir === 'left') vec.x -= 1
+    else if (dir === 'right') vec.x += 1
+    return vec
   }
 }
