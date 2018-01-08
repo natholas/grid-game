@@ -53,7 +53,7 @@ export class Renderer {
       let offset = new Vector(offsetX, offsetY)
 
       let size = this.renderData.tileSize
-      let viewOffset = this.activeCharacter.pos.copy().multiply(size).sub(offset)
+      let viewOffset = this.activeCharacter.getLerpPos().multiply(size).sub(offset)
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
       this.activeLevel.tiles.forEach((tilesLayer: Tile[][]) => {
@@ -67,11 +67,10 @@ export class Renderer {
       })
 
       this.ctx.beginPath()
-      let pos = this.activeCharacter.pos.copy().multiply(size)
+      let pos = this.activeCharacter.getLerpPos().multiply(size)
       pos = pos.sub(viewOffset)
       pos = pos.sub(new Vector(this.renderData.tileSize / 2, this.renderData.tileSize / 2))
-      let state = this.activeCharacter.state
-      if (this.activeCharacter.invertDir) state += '-inverted'
+      let state = this.activeCharacter.state + '-' + this.activeCharacter.facing
       this.ctx.drawImage(this.renderData.characterSprites['character-' + state], pos.x, pos.y)
     }
 

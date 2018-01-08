@@ -26,8 +26,14 @@ export class RenderData {
   ]
 
   public characterNames: string[] = [
-    'idle',
-    'walking',
+    'idle-up',
+    'idle-right',
+    'idle-down',
+    'idle-left',
+    'walking-up',
+    'walking-right',
+    'walking-down',
+    'walking-left',
     'idle-inverted',
     'walking-inverted'
   ]
