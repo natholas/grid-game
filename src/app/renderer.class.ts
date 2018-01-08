@@ -13,6 +13,8 @@ export class Renderer {
   public updating: boolean = false
   public activeCharacter: Character
   public activeLevel: Level
+  private frameCount: number = 0
+  private animationCount: number = 0
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas
@@ -40,11 +42,13 @@ export class Renderer {
     this.updating = true
     this.activeLevel = level
     this.activeCharacter = character
-    this.update()
+    if (this.frameCount === 0) this.update()
   }
 
   public update(): void {
     if (this.renderData.loadedAllGraphics) {
+      this.frameCount += 1
+      if (this.frameCount % this.renderData.spriteAnimationRate === 0) this.animationCount += 1
       let halfWidth = Math.floor(this.renderData.resolution.width / 2)
       let halfHeight = Math.floor(this.renderData.resolution.height / 2)
       
@@ -71,7 +75,8 @@ export class Renderer {
       pos = pos.sub(viewOffset)
       pos = pos.sub(new Vector(this.renderData.tileSize / 2, this.renderData.tileSize / 2))
       let state = this.activeCharacter.state + '-' + this.activeCharacter.facing
-      this.ctx.drawImage(this.renderData.characterSprites['character-' + state], pos.x, pos.y)
+      let sprites = this.renderData.characterSprites['character-' + state]
+      this.ctx.drawImage(sprites[this.animationCount % sprites.length], pos.x, pos.y)
     }
 
     window.requestAnimationFrame(a => {
@@ -96,7 +101,7 @@ export class Renderer {
     pos = pos.sub(viewOffset)
     pos = pos.sub(new Vector(this.renderData.tileSize / 2, this.renderData.tileSize / 2))
     if (!this.inView(pos)) return
-    let sprite = this.renderData.tileSprites[tile.type + '_' + tile.cornerType]
+    let sprite = this.renderData.tileSprites[tile.type + '_' + tile.cornerType][0]
     if (!sprite) return false
     this.ctx.beginPath()
     this.ctx.drawImage(sprite, pos.x, pos.y)
