@@ -16,9 +16,9 @@ export class InputController {
   }
 
   public startListening() {
-    this.canvas.addEventListener('mousedown', this.mousedown.bind(this))
-    this.canvas.addEventListener('mouseup', this.mouseup.bind(this))
-    this.canvas.addEventListener('mousemove', this.mousemove.bind(this))
+    // this.canvas.addEventListener('mousedown', this.mousedown.bind(this))
+    // this.canvas.addEventListener('mouseup', this.mouseup.bind(this))
+    // this.canvas.addEventListener('mousemove', this.mousemove.bind(this))
 
     this.canvas.addEventListener('touchstart', this.touchstart.bind(this))
     this.canvas.addEventListener('touchend', this.touchend.bind(this))
@@ -30,7 +30,7 @@ export class InputController {
   }
 
   private touchstart(e: TouchEvent) {
-    let touch = e.touches[0]
+    let touch = e.touches[e.touches.length - 1]
     this.touchPos = new Vector(touch.clientX, touch.clientY)
     this.screenMove()
   }
@@ -41,7 +41,7 @@ export class InputController {
   }
   
   private touchend(e: TouchEvent) {
-    this.stopMoving()
+    if (e.touches.length === 0) this.stopMoving()
   }
 
   private mouseup(e: MouseEvent) {
@@ -49,7 +49,7 @@ export class InputController {
   }
 
   private touchmove(e: TouchEvent) {
-    let touch = e.touches[0]
+    let touch = e.touches[e.touches.length - 1]
     this.touchPos = new Vector(touch.clientX, touch.clientY)
     this.screenMove()
   }
