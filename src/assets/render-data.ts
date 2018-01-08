@@ -33,9 +33,7 @@ export class RenderData {
     'walking-up',
     'walking-right',
     'walking-down',
-    'walking-left',
-    'idle-inverted',
-    'walking-inverted'
+    'walking-left'
   ]
 
   public tileTypes: string[] = [
