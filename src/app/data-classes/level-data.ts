@@ -30,16 +30,23 @@ export class LevelData {
       ],
       tiles: [
         [["grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "grass"], ["grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "dirt", "grass"], ["grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "dirt", "grass"], ["grass", "grass", "grass", "grass", "grass", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "grass"], ["grass", "grass", "grass", "grass", "grass", "dirt", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "grass", "dirt", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "grass", "dirt", "grass", "dirt", "dirt", "dirt", "dirt", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "dirt", "grass", "grass", "grass", "grass", "dirt", "dirt", "dirt", "dirt", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "dirt", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "dirt", "grass", "grass", "grass", "dirt", "dirt", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "dirt", "grass", "grass", "dirt", "dirt", "dirt", "dirt", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "dirt", "grass", "grass", "dirt", "dirt", "dirt", "dirt", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "grass", "grass", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt", "dirt"], ["grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"]],
-        // [[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, "bridge", null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, "bridge", null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, "bridge", null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, "bridge", null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, "bridge", null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]]
       ],
       objects: [
         {
+          id: 1,
           type: 'hole',
           pos: [10, 9]
         },
         {
+          id: 2,
           type: 'hole',
           pos: [7, 12]
+        },
+        {
+          id: 3,
+          type: 'key',
+          pos: [2, 2],
+          pickupable: true
         }
       ]
     },
@@ -64,10 +71,12 @@ export class LevelData {
       ],
       objects: [
         {
+          id: 4,
           type: 'stairs',
           pos: [0, 0]
         },
         {
+          id: 5,
           type: 'stairs',
           pos: [7, 7]
         }

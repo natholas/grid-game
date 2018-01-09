@@ -43,6 +43,9 @@ export class Level {
     if (connection) {
       this.game.processConnection(connection)
     }
+    let objects = this.getObjectsFromPos(character.pos)
+    character.pickUpObjects(objects)
+    this.removeObjects(objects)
   }
 
   public getTileFromPos(pos: Vector, layer: number) {
@@ -62,13 +65,33 @@ export class Level {
     return false
   }
 
+  private removeObjects(objects: LevelObject[]) {
+    for (let obj of objects) this.removeObject(obj)
+  }
+
+  private removeObject(object: LevelObject) {
+    for (let i = 0; i < this.objects.length; i++) {
+      if (object.id === this.objects[i].id) {
+        this.objects.splice(i, 1)
+        return
+      }
+    }
+  }
+
+  private getObjectsFromPos(pos: Vector): LevelObject[] {
+    let objects = []
+    for (let obj of this.objects) {
+      if (obj.pos.equals(pos)) objects.push(obj)
+    }
+    return objects
+  }
+
   private processObjects(data: any[]): void {
     this.objects = []
     for (var i in data) {
       let pos = new Vector(data[i].pos[0], data[i].pos[1])
-      this.objects.push(new LevelObject(pos, data[i].type))
+      this.objects.push(new LevelObject(data[i].id, pos, data[i].type, !!data[i].pickupable))
     }
-    // this.objects = data
   }
 
   private processConnections(data: any[]): void {
@@ -84,7 +107,6 @@ export class Level {
     for (let i = 0; i < data.tiles.length; i++) {
       this.tiles.push(this.processTilesLayer(data.tiles[i]))
     }
-
     for (let i = 0; i < this.tiles.length; i++) {
       this.addTileTypes(this.tiles[i], i)
     }

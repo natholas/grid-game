@@ -1,15 +1,17 @@
 import { Vector } from "./vector.class"
 import { Level } from "./level.class"
 import { CharacterData } from "./data-classes/character-data"
+import { LevelObject } from "./level-object.class";
 
 export class Character {
   public name: string
   public pos: Vector
   public facing: string = 'down'
   public lerpPos: Vector = new Vector()
-  private walkingDir: Vector
+  public inventory: LevelObject[] = []
   public level: Level
   public state: string = 'idle'
+  private walkingDir: Vector
   private startedMoveTime: number = new Date().getTime()
   private characterData: CharacterData = new CharacterData()
   private isWalking: boolean = false
@@ -38,6 +40,10 @@ export class Character {
     let timeToGo = this.characterData.moveTime - timeSinceStartLerp
     let progress = 1 - (1 / this.characterData.moveTime * timeToGo)
     return this.lerpPos.add(moveDiff.multiply(progress))
+  }
+
+  public pickUpObjects(objects: LevelObject[]) {
+    
   }
 
   private changeWalkingDir(dir: string) {
