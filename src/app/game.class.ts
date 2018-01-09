@@ -44,13 +44,13 @@ export class Game {
     this.ui.createText('change-level', this.activeLevel.title, levelTextPos, 'center', 2)
     this.levelChangeTimeout = setTimeout((a: any) => {
       this.ui.removeText('change-level')
-    }, 1000)
+    }, 2500)
   }
   
-  private processConnection(connection: Connection) {
-    this.inputController.stopListening()
+  public processConnection(connection: Connection) {
+    this.inputController.pause()
     this.renderer.startLevelTransition((a: any) => {
-      this.inputController.startListening()
+      this.inputController.resume()
       this.changeLevel(connection.levelIndex)
       connection = this.activeLevel.getConnectionFromId(connection.connectionId)
       this.character.pos = connection.levelPos.copy()

@@ -6,6 +6,7 @@ export class InputController {
   touchPos: Vector
   canvas: HTMLCanvasElement
   moveDir: string
+  paused: boolean = false
 
   constructor(uiCanvas: HTMLCanvasElement, character: Character) {
     this.character = character
@@ -19,6 +20,24 @@ export class InputController {
     window.addEventListener('blur', a => {
       this.stopMoving()
     })
+  }
+
+  public stopListening() {
+    this.canvas.removeEventListener('touchstart', this.touchstart.bind(this))
+    this.canvas.removeEventListener('touchend', this.touchend.bind(this))
+    this.canvas.removeEventListener('touchmove', this.touchmove.bind(this))
+    this.character.triggerInput('stop-moving')
+  }
+
+  public pause() {
+    this.paused = true
+    this.character.triggerInput('stop-moving')
+  }
+
+  public resume() {
+    this.paused = false
+    this.moveDir = undefined
+    this.screenMove()
   }
 
   private touchstart(e: TouchEvent) {
@@ -59,7 +78,7 @@ export class InputController {
   }
 
   private screenMove() {
-    if (!this.touchPos) return
+    if (!this.touchPos || this.paused) return
     let dir = this.getTouchDir()
     if (this.moveDir !== dir) {
       this.character.triggerInput('move-' + dir)
@@ -70,18 +89,10 @@ export class InputController {
   private getTouchDir(): string {
     let x = (window.innerWidth / 2) - this.touchPos.x
     let y = (window.innerHeight / 2) - this.touchPos.y
-
     if (Math.abs(x) > Math.abs(y)) {
       return x < 0 ? 'right' : 'left'
     } else {
       return y < 0 ? 'down' : 'up'
     }
-  }
-
-  public stopListening() {
-    this.canvas.removeEventListener('touchstart', this.touchstart.bind(this))
-    this.canvas.removeEventListener('touchend', this.touchend.bind(this))
-    this.canvas.removeEventListener('touchmove', this.touchmove.bind(this))
-    this.character.triggerInput('stop-moving')
   }
 }
