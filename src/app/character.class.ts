@@ -1,6 +1,6 @@
 import { Vector } from "./vector.class"
 import { Level } from "./level.class"
-import { CharacterData } from "../assets/character-data"
+import { CharacterData } from "./data-classes/character-data"
 
 export class Character {
   public name: string

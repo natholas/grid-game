@@ -1,4 +1,4 @@
-import { LevelData } from '../assets/level-data'
+import { LevelData } from './data-classes/level-data'
 import { Vector } from './vector.class'
 
 export class GameData {

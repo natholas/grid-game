@@ -1,5 +1,5 @@
 import { Game } from "./game.class"
-import { UIData } from "../assets/ui.data";
+import { UIData } from "./data-classes/ui.data";
 import { Vector } from "./vector.class";
 
 export class UI {

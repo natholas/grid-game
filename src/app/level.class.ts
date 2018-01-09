@@ -2,7 +2,7 @@ import { Connection } from './connection.class'
 import { Tile } from './tile.class'
 import { LevelObject } from './level-object.class'
 import { Vector } from './vector.class';
-import { LevelData } from '../assets/level-data';
+import { LevelData } from './data-classes/level-data';
 import { Character } from './character.class';
 import { Game } from './game.class';
 

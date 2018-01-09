@@ -1,6 +1,6 @@
 import { Game } from './game.class'
 import { GameData } from './game-data.class'
-import { LevelData } from '../assets/level-data'
+import { LevelData } from './data-classes/level-data'
 
 import { UI } from './ui'
 

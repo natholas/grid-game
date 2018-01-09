@@ -1,11 +1,9 @@
 import { Character } from "./character.class";
-import { ControlData } from "../assets/control-data";
 import { Vector } from "./vector.class";
 
 export class InputController {
   character: Character
   listener: any
-  controlData: ControlData = new ControlData()
   touchPos: Vector
   canvas: HTMLCanvasElement
   moveDir: string

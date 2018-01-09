@@ -1,5 +1,5 @@
 import { Level } from './level.class'
-import { RenderData } from '../assets/render-data'
+import { RenderData } from './data-classes/render-data'
 import { Tile } from './tile.class'
 import { Vector } from './vector.class'
 import { Character } from './character.class'
