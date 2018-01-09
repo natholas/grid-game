@@ -26,11 +26,15 @@ export class Game {
     this.inputController.startListening()
   }
   
-  changeLevel(index: number) {
+  private changeLevel(index: number) {
     this.activeLevel = this.levels[index]
     this.character.level = this.activeLevel
     this.renderer.stopUpdating()
     this.renderer.startUpdating(this.activeLevel, this.character)
+    this.addLevelText()
+  }
+  
+  private addLevelText() {
     let levelTextPos = new Vector(this.renderer.canvas.width / 2, this.renderer.canvas.height / 4)
     if (this.levelChangeTimeout) {
       clearTimeout(this.levelChangeTimeout)
@@ -43,7 +47,7 @@ export class Game {
     }, 1000)
   }
   
-  processConnection(connection: Connection) {
+  private processConnection(connection: Connection) {
     this.inputController.stopListening()
     this.renderer.startLevelTransition((a: any) => {
       this.inputController.startListening()
@@ -55,7 +59,7 @@ export class Game {
     })
   }
 
-  createLevels(levelData: any): Level[] {
+  private createLevels(levelData: any): Level[] {
     let levels: Level[] = []
     levelData.levels.forEach((data: any) => {
       levels.push(new Level(data, this))
