@@ -13,7 +13,7 @@ export class LevelData {
 
   levels: any[] = [
     {
-      title: "Level 1",
+      title: "First level",
       connections: [
         {
           connectionId: 1,
@@ -44,7 +44,7 @@ export class LevelData {
       ]
     },
     {
-      title: "Level 2",
+      title: "Test tunnel level with really long name",
       connections: [
         {
           connectionId: 1,

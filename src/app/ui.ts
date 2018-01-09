@@ -31,8 +31,7 @@ export class UI {
     this.uiData.resolution.height = small
     this.createText('loading', 'Loading...', new Vector(this.canvas.width / 2, (this.canvas.height / 2) - 10), 'center', 4)
     this.game.renderer.renderData.returnWhenLoaded((a: any) => {
-      delete this.printedData['loading']
-      this.renderAll()
+      this.removeText('loading')
     })
   }
 
@@ -42,6 +41,11 @@ export class UI {
       string: string, pos: pos, align: align, scale: scale
     }
     this.render(string, pos, align, scale)
+  }
+
+  public removeText(id: string) {
+    delete this.printedData[id]
+    this.renderAll()
   }
 
   private renderAll() {
