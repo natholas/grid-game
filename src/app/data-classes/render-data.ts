@@ -3,6 +3,7 @@ export class RenderData {
   public spriteAnimationRate: number = 16
   levelTransitionTime: number = 500
   private notifyWhenLoaded: any[] = []
+  private loadCount: number = 0
 
   private tileNames: string[][] = [
     ['center'],
@@ -43,10 +44,10 @@ export class RenderData {
     'dirt',
     'bridge'
   ]
-  public objectTypes: string[] = [
-    'stairs',
-    'hole',
-    'key',
+  public objectTypes: string[][] = [
+    ['stairs'],
+    ['hole'],
+    ['key_0', 'key_1', 'key_2', 'key_3'],
   ]
   public tileSprites: any = {}
   public objectSprites: any = {}
@@ -58,48 +59,26 @@ export class RenderData {
   public loadedAllGraphics: boolean = false
 
   constructor() {
-    let loadCount: number = 0
+    this.loadCount = 0
     this.tileTypes.forEach((tileType: string) => {
       for (let tileNames of this.tileNames) {
         let key = tileType + '_' + tileNames[0].split('_')[0]
         this.tileSprites[key] = []
         for (var tileName of tileNames) {
-          loadCount ++
+          this.loadCount ++
           let img = new Image()
           img.src = '/assets/sprites/' + tileType + '_' + tileName + '.png'
           img.onload = function() {
-            loadCount --
+            this.loadCount --
             this.tileSprites[key].push(img)
-            if (loadCount === 0) this.allLoaded()
+            if (this.loadCount === 0) this.allLoaded()
           }.bind(this)
         }
       }
     })
 
-    for (let characterNames of this.characterNames) {
-      let key = 'character' + '-' + characterNames[0].split('_')[0]
-      this.characterSprites[key] = []
-      for (var characterName of characterNames) {
-        loadCount++
-        let img = new Image()
-        img.src = '/assets/sprites/' + 'character' + '-' + characterName + '.png'
-        img.onload = function () {
-          loadCount--
-          this.characterSprites[key].push(img)
-          if (loadCount === 0) this.allLoaded()
-        }.bind(this)
-      }
-    }
-
-    this.objectTypes.forEach((objectType: string) => {
-      loadCount ++
-      this.objectSprites[objectType] = new Image()
-      this.objectSprites[objectType].src = '/assets/sprites/' + objectType + '.png'
-      this.objectSprites[objectType].onload = function () {
-        loadCount--
-        if (loadCount === 0) this.allLoaded()
-      }.bind(this)
-    })
+    this.loadImagesOfType('character', this.characterNames, this.characterSprites)
+    this.loadImagesOfType('object', this.objectTypes, this.objectSprites)
   }
 
   public returnWhenLoaded(fun: Function) {
@@ -112,5 +91,22 @@ export class RenderData {
     this.notifyWhenLoaded.forEach((fun: Function) => {
       fun()
     })
+  }
+
+  private loadImagesOfType(name: string, input: string[][], output: any) {
+    for (let item of input) {
+      let key = name + '-' + item[0].split('_')[0]
+      output[key] = []
+      for (var suffix of item) {
+        this.loadCount++
+        let img = new Image()
+        img.src = '/assets/sprites/' + name + '-' + suffix + '.png'
+        img.onload = function () {
+          this.loadCount--
+          output[key].push(img)
+          if (this.loadCount === 0) this.allLoaded()
+        }.bind(this)
+      }
+    }
   }
 }

@@ -112,14 +112,13 @@ export class Renderer {
   }
 
   private renderObject(object: LevelObject, viewOffset: Vector, size: number) {
+    this.ctx.beginPath()
     let pos = object.pos.copy().multiply(size)
     pos = pos.sub(viewOffset)
     pos = pos.sub(new Vector(this.renderData.tileSize / 2, this.renderData.tileSize / 2))
     if (!this.inView(pos)) return
-    let sprite = this.renderData.objectSprites[object.type]
-    if (!sprite) return false
-    this.ctx.beginPath()
-    this.ctx.drawImage(sprite, pos.x, pos.y)
+    let sprites = this.renderData.objectSprites['object-' + object.type]
+    this.ctx.drawImage(sprites[this.animationCount % sprites.length], pos.x, pos.y)
   }
 
   private renderTile(tile: Tile, viewOffset: Vector, size: number) {
