@@ -43,7 +43,7 @@ export class Character {
   }
 
   public pickUpObjects(objects: LevelObject[]) {
-    
+    this.inventory = this.inventory.concat(objects)
   }
 
   private changeWalkingDir(dir: string) {

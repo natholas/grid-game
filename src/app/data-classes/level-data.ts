@@ -46,7 +46,8 @@ export class LevelData {
           id: 3,
           type: 'key',
           pos: [2, 2],
-          pickupable: true
+          pickupable: true,
+          name: 'Very special key'
         }
       ]
     },

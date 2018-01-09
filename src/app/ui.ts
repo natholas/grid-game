@@ -45,9 +45,16 @@ export class UI {
     this.render(string, pos, preset.alignX, scale)
   }
 
-  public removeText(id: string) {
-    delete this.printedData[id]
-    this.renderAll()
+  public removeText(id: string, delay: number = 0) {
+    if (!delay) {
+      delete this.printedData[id]
+      this.renderAll()
+    } else {
+      setTimeout((a:any) => {
+        delete this.printedData[id]
+        this.renderAll()
+      }, delay)
+    }
   }
 
   private renderAll() {
@@ -69,7 +76,7 @@ export class UI {
     let lineLength = 0
     for (let word of words) {
       lineLength += this.wordLength(word) * scale
-      if (lineLength > this.canvas.width) {
+      if (lineLength >= this.canvas.width) {
         lines.push([])
         lineLength = 0
       }
@@ -93,7 +100,7 @@ export class UI {
       total += this.longgestArrayLength(_letter)
       total += 1
     }
-    return total
+    return total + 2
   }
 
   private drawWord(string: string, pos: Vector, align: string, scale: number) {
@@ -108,7 +115,7 @@ export class UI {
       output.push(letter)
     }
 
-    totalLength -= 1 * scale
+    totalLength -= (1 * scale)
 
     if (align === 'right') pos = pos.add(new Vector(- totalLength))
     if (align === 'center') pos = pos.add(new Vector(- Math.floor(totalLength / 2)))

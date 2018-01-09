@@ -19,6 +19,14 @@ export class UIData {
       offsetPixelsY: 0,
       offsetPercentX: 0,
       offsetPercentY: 25,
+    },
+    centerBottom: {
+      alignX: 'center',
+      alignY: 'bottom',
+      offsetPixelsX: 0,
+      offsetPixelsY: 0,
+      offsetPercentX: 0,
+      offsetPercentY: -25,
     }
   }
   font: any = {
@@ -43,6 +51,13 @@ export class UIData {
       [false],
       [true],
       [true],
+    ],
+    ':': [
+      [false],
+      [true],
+      [false],
+      [true],
+      [false],
     ],
     A: [
       [true, true, true],

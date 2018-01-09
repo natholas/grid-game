@@ -43,9 +43,7 @@ export class Level {
     if (connection) {
       this.game.processConnection(connection)
     }
-    let objects = this.getObjectsFromPos(character.pos)
-    character.pickUpObjects(objects)
-    this.removeObjects(objects)
+    this.checkPickupableObjects(character)
   }
 
   public getTileFromPos(pos: Vector, layer: number) {
@@ -63,6 +61,18 @@ export class Level {
       return tile.walkable
     }
     return false
+  }
+
+  private checkPickupableObjects(character: Character) {
+    let objects = this.getObjectsFromPos(character.pos).filter((obj: LevelObject) => {
+      return obj.pickupable
+    })
+    for (let obj of objects) {
+      this.game.ui.createText('picked-up-object', 'Picked up: ' + obj.name, 'centerBottom', 2)
+      this.game.ui.removeText('picked-up-object', 2500)
+    }
+    character.pickUpObjects(objects)
+    this.removeObjects(objects)
   }
 
   private removeObjects(objects: LevelObject[]) {
@@ -90,7 +100,7 @@ export class Level {
     this.objects = []
     for (var i in data) {
       let pos = new Vector(data[i].pos[0], data[i].pos[1])
-      this.objects.push(new LevelObject(data[i].id, pos, data[i].type, !!data[i].pickupable))
+      this.objects.push(new LevelObject(data[i].id, data[i].name, pos, data[i].type, !!data[i].pickupable))
     }
   }
 
