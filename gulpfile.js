@@ -12,7 +12,7 @@ var del = require('del')
 
 var paths = {
   pages: ['src/app/*.html'],
-  scripts: ['src/app/*.ts', 'src/assets/*.ts'],
+  scripts: ['src/app/*.ts', 'src/app/**/*.ts'],
   styles: ['src/app/assets/styles/*.scss'],
   assets: ['src/app/assets/*', 'src/app/assets/**/*']
 }

@@ -4,6 +4,7 @@ import { Renderer } from './renderer.class'
 import { Character } from './character.class'
 import { InputController } from './input-controller.class'
 import { Connection } from './connection.class';
+import { Vector } from './vector.class';
 
 export class Game {
   levels: Level[] = []
@@ -33,6 +34,7 @@ export class Game {
     this.changeLevel(connection.levelIndex)
     connection = this.activeLevel.getConnectionFromId(connection.connectionId)
     this.character.pos = connection.levelPos.copy()
+    this.character.MoveInDir(this.character.dirToVec(connection.direction))
   }
 
   createLevels(levelData: any): Level[] {

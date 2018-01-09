@@ -1,7 +1,7 @@
 export class LevelData {
   tileTypes: any = {
     "grass": {
-      walkable: false
+      walkable: true
     }, 
     "dirt": {
       walkable: true
@@ -18,12 +18,14 @@ export class LevelData {
         {
           connectionId: 1,
           levelIndex: 1,
-          pos: [10, 9]
+          pos: [10, 9],
+          direction: 'left'
         },
         {
           connectionId: 2,
           levelIndex: 1,
-          pos: [7, 12]
+          pos: [7, 12],
+          direction: 'up'
         }
       ],
       tiles: [
@@ -47,12 +49,14 @@ export class LevelData {
         {
           connectionId: 1,
           levelIndex: 0,
-          pos: [0, 0]
+          pos: [0, 0],
+          direction: 'right'
         },
         {
           connectionId: 2,
           levelIndex: 0,
-          pos: [7, 7]
+          pos: [7, 7],
+          direction: 'up'
         }
       ],
       tiles: [

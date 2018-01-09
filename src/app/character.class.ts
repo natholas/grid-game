@@ -66,7 +66,7 @@ export class Character {
     this.state = moved ? 'walking' : 'idle'
   }
 
-  private MoveInDir(dir: Vector): boolean {
+  public MoveInDir(dir: Vector): boolean {
     let canMove = this.level.tileWalkable(this.pos.add(dir))
     this.facing = this.vecToDir(dir)
     if (canMove) {
@@ -80,13 +80,11 @@ export class Character {
     this.isWalking = false
   }
 
-  private dirToVec(dir: string): Vector {
-    let vec = new Vector()
-    if (dir === 'up') vec.y -= 1
-    else if (dir === 'down') vec.y += 1
-    if (dir === 'left') vec.x -= 1
-    else if (dir === 'right') vec.x += 1
-    return vec
+  public dirToVec(dir: string): Vector {
+    if (dir === 'up') return new Vector(0,-1)
+    if (dir === 'down') return new Vector(0,1)
+    if (dir === 'left') return new Vector(-1,0)
+    return new Vector(1,0)
   }
 
   private vecToDir(vec: Vector): string {

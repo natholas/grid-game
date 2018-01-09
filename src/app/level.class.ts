@@ -74,7 +74,7 @@ export class Level {
   private processConnections(data: any[]): void {
     data.forEach((data: any) => {
       this.connections.push(
-        new Connection(data.connectionId, data.levelIndex, new Vector(data.pos[0], data.pos[1]))
+        new Connection(data.connectionId, data.levelIndex, new Vector(data.pos[0], data.pos[1]), data.direction)
       )
     })
   }
