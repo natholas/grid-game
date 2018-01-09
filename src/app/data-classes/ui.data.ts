@@ -1,8 +1,26 @@
 export class UIData {
+  lineSpacing: number = 2
   resolution: any = {
     width: 180
   }
-  lineSpacing: number = 2
+  textPositions: any = {
+    center: {
+      alignX: 'center',
+      alignY: 'center',
+      offsetPixelsX: 0,
+      offsetPixelsY: 0,
+      offsetPercentX: 0,
+      offsetPercentY: 0,
+    },
+    centerTop: {
+      alignX: 'center',
+      alignY: 'top',
+      offsetPixelsX: 0,
+      offsetPixelsY: 0,
+      offsetPercentX: 0,
+      offsetPercentY: 25,
+    }
+  }
   font: any = {
     ' ': [
       [false],

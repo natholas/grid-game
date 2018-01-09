@@ -35,13 +35,12 @@ export class Game {
   }
   
   private addLevelText() {
-    let levelTextPos = new Vector(this.renderer.canvas.width / 2, this.renderer.canvas.height / 4)
     if (this.levelChangeTimeout) {
       clearTimeout(this.levelChangeTimeout)
       this.ui.removeText('change-level')
       this.levelChangeTimeout = undefined
     }
-    this.ui.createText('change-level', this.activeLevel.title, levelTextPos, 'center', 2)
+    this.ui.createText('change-level', this.activeLevel.title, 'centerTop', 2)
     this.levelChangeTimeout = setTimeout((a: any) => {
       this.ui.removeText('change-level')
     }, 2500)

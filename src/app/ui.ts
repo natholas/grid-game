@@ -29,18 +29,20 @@ export class UI {
     this.canvas.height = landscape ? small : large
     this.canvas.width = landscape ? large : small
     this.uiData.resolution.height = small
-    this.createText('loading', 'Loading...', new Vector(this.canvas.width / 2, (this.canvas.height / 2) - 10), 'center', 4)
+    this.createText('loading', 'Loading...', 'center', 4)
     this.game.renderer.renderData.returnWhenLoaded((a: any) => {
       this.removeText('loading')
     })
   }
 
-  public createText(id: string, string: string, pos: Vector, align: string, scale: number) {
+  public createText(id: string, string: string, presetString: string, scale: number) {
+    let preset = this.uiData.textPositions[presetString]
+    let pos = this.presetPos(preset)
     pos = new Vector(Math.floor(pos.x), Math.floor(pos.y))
     this.printedData[id] = {
-      string: string, pos: pos, align: align, scale: scale
+      string: string, pos: pos, align: preset.alignX, scale: scale
     }
-    this.render(string, pos, align, scale)
+    this.render(string, pos, preset.alignX, scale)
   }
 
   public removeText(id: string) {
@@ -136,5 +138,22 @@ export class UI {
       }
     }
     return longest.length
+  }
+
+  private presetPos(preset: any): Vector {
+    let vec = new Vector()
+    let width = this.canvas.width
+    let height = this.canvas.height
+
+    if (preset.alignX === 'center') vec.x = width / 2
+    if (preset.alignY === 'center') vec.y = height / 2
+    if (preset.alignX === 'right') vec.x = width
+    if (preset.alignY === 'bottom') vec.y = height
+    vec.x += preset.offsetPixelsX
+    vec.y += preset.offsetPixelsY
+    if (preset.offsetPercentX) vec.x += (width / 100) * preset.offsetPercentX
+    if (preset.offsetPercentY) vec.y += (height / 100) * preset.offsetPercentY
+    
+    return vec
   }
 } 
