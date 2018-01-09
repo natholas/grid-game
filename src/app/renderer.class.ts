@@ -15,6 +15,8 @@ export class Renderer {
   public activeLevel: Level
   private frameCount: number = 0
   private animationCount: number = 0
+  private transitioningLevel: boolean = false
+  private transitionLevelStartTime: number = 0
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas
@@ -51,7 +53,7 @@ export class Renderer {
       if (this.frameCount % this.renderData.spriteAnimationRate === 0) this.animationCount += 1
       let halfWidth = Math.floor(this.renderData.resolution.width / 2)
       let halfHeight = Math.floor(this.renderData.resolution.height / 2)
-      
+
       let offsetX = this.landscape ? halfHeight : halfWidth
       let offsetY = this.landscape ? halfWidth : halfHeight
       let offset = new Vector(offsetX, offsetY)
@@ -70,18 +72,43 @@ export class Renderer {
         this.renderObject(object, viewOffset, size)
       })
 
-      this.ctx.beginPath()
-      let pos = this.activeCharacter.getLerpPos().multiply(size)
-      pos = pos.sub(viewOffset)
-      pos = pos.sub(new Vector(this.renderData.tileSize / 2, this.renderData.tileSize / 2))
-      let state = this.activeCharacter.state + '-' + this.activeCharacter.facing
-      let sprites = this.renderData.characterSprites['character-' + state]
-      this.ctx.drawImage(sprites[this.animationCount % sprites.length], pos.x, pos.y)
+      this.renderCharacter(viewOffset, size)
+
+      if (this.transitioningLevel) {
+        this.addDarkness()
+      }
     }
 
     window.requestAnimationFrame(a => {
       if (this.updating) this.update()
     })
+  }
+
+  public startLevelTransition(callback: Function) {
+    this.transitioningLevel = true
+    this.transitionLevelStartTime = new Date().getTime()
+    setTimeout((a: any) => {
+      this.transitioningLevel = false
+      callback()
+    }, this.renderData.levelTransitionTime)
+  }
+
+  private addDarkness() {
+    this.ctx.rect(0, 0, this.canvas.width, this.canvas.height)
+    let timeSinceStart = new Date().getTime() - this.transitionLevelStartTime
+    let opacity = (1 / this.renderData.levelTransitionTime) * timeSinceStart
+    this.ctx.fillStyle = 'rgba(0,0,0,' + opacity + ')'
+    this.ctx.fill()
+  }
+
+  private renderCharacter(viewOffset: Vector, size: number) {
+    this.ctx.beginPath()
+    let pos = this.activeCharacter.getLerpPos().multiply(size)
+    pos = pos.sub(viewOffset)
+    pos = pos.sub(new Vector(this.renderData.tileSize / 2, this.renderData.tileSize / 2))
+    let state = this.activeCharacter.state + '-' + this.activeCharacter.facing
+    let sprites = this.renderData.characterSprites['character-' + state]
+    this.ctx.drawImage(sprites[this.animationCount % sprites.length], pos.x, pos.y)
   }
 
   private renderObject(object: LevelObject, viewOffset: Vector, size: number) {

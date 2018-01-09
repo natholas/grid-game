@@ -1,6 +1,7 @@
 export class RenderData {
   public tileSize: number = 16
   public spriteAnimationRate: number = 16
+  levelTransitionTime: number = 500
   private notifyWhenLoaded: any[] = []
 
   private tileNames: string[][] = [

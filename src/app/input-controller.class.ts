@@ -3,7 +3,6 @@ import { Vector } from "./vector.class";
 
 export class InputController {
   character: Character
-  listener: any
   touchPos: Vector
   canvas: HTMLCanvasElement
   moveDir: string
@@ -14,14 +13,9 @@ export class InputController {
   }
 
   public startListening() {
-    // this.canvas.addEventListener('mousedown', this.mousedown.bind(this))
-    // this.canvas.addEventListener('mouseup', this.mouseup.bind(this))
-    // this.canvas.addEventListener('mousemove', this.mousemove.bind(this))
-
     this.canvas.addEventListener('touchstart', this.touchstart.bind(this))
     this.canvas.addEventListener('touchend', this.touchend.bind(this))
     this.canvas.addEventListener('touchmove', this.touchmove.bind(this))
-
     window.addEventListener('blur', a => {
       this.stopMoving()
     })
@@ -85,6 +79,9 @@ export class InputController {
   }
 
   public stopListening() {
-    clearInterval(this.listener)
+    this.canvas.removeEventListener('touchstart', this.touchstart.bind(this))
+    this.canvas.removeEventListener('touchend', this.touchend.bind(this))
+    this.canvas.removeEventListener('touchmove', this.touchmove.bind(this))
+    this.character.triggerInput('stop-moving')
   }
 }
