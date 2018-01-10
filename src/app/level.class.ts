@@ -44,6 +44,7 @@ export class Level {
       this.game.processConnection(connection)
     }
     this.checkPickupableObjects(character)
+    this.updateNeedsMet(character)
   }
 
   public getTileFromPos(pos: Vector, layer: number) {
@@ -75,6 +76,12 @@ export class Level {
     this.removeObjects(objects)
   }
 
+  private updateNeedsMet(character: Character) {
+    for (let obj of this.objects) {
+      obj.needsMet = character.hasWhatObjectNeeds(obj)
+    }
+  }
+
   private removeObjects(objects: LevelObject[]) {
     for (let obj of objects) this.removeObject(obj)
   }
@@ -100,7 +107,7 @@ export class Level {
     this.objects = []
     for (var i in data) {
       let pos = new Vector(data[i].pos[0], data[i].pos[1])
-      this.objects.push(new LevelObject(data[i].id, data[i].name, pos, data[i].type, !!data[i].pickupable, data[i].needs))
+      this.objects.push(new LevelObject(data[i].id, data[i].name, pos, data[i].type, !!data[i].pickupable, data[i].needs, data[i].unmetSuffix))
     }
   }
 

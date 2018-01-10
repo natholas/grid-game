@@ -47,6 +47,7 @@ export class RenderData {
   public objectTypes: string[][] = [
     ['stairs'],
     ['hole'],
+    ['hole-closed'],
     ['key_0', 'key_1', 'key_2', 'key_3'],
   ]
   public tileSprites: any = {}

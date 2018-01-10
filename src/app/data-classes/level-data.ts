@@ -36,7 +36,8 @@ export class LevelData {
           id: 1,
           type: 'hole',
           pos: [10, 9],
-          needs: [3]
+          needs: [3],
+          unmetSuffix: 'closed'
         },
         {
           id: 2,
@@ -46,9 +47,9 @@ export class LevelData {
         {
           id: 3,
           type: 'key',
-          pos: [2, 2],
+          pos: [5, 5],
           pickupable: true,
-          name: 'Very special key'
+          name: 'Very special key',
         }
       ]
     },

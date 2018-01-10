@@ -91,7 +91,7 @@ export class Character {
     return true
   }
 
-  private hasWhatObjectNeeds(obj: LevelObject): boolean {
+  public hasWhatObjectNeeds(obj: LevelObject): boolean {
     for (let need of obj.needs) {
       if (!this.getInventoryItemFromId(need)) return false
     }

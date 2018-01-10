@@ -117,7 +117,9 @@ export class Renderer {
     pos = pos.sub(viewOffset)
     pos = pos.sub(new Vector(this.renderData.tileSize / 2, this.renderData.tileSize / 2))
     if (!this.inView(pos)) return
-    let sprites = this.renderData.objectSprites['object-' + object.type]
+    let type = object.type
+    if (object.needs.length && !object.needsMet) type += '-' + object.unmetSuffix
+    let sprites = this.renderData.objectSprites['object-' + type]
     this.ctx.drawImage(sprites[this.animationCount % sprites.length], pos.x, pos.y)
   }
 
