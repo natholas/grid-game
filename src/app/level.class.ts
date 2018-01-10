@@ -88,7 +88,7 @@ export class Level {
     }
   }
 
-  private getObjectsFromPos(pos: Vector): LevelObject[] {
+  public getObjectsFromPos(pos: Vector): LevelObject[] {
     let objects = []
     for (let obj of this.objects) {
       if (obj.pos.equals(pos)) objects.push(obj)
@@ -100,7 +100,7 @@ export class Level {
     this.objects = []
     for (var i in data) {
       let pos = new Vector(data[i].pos[0], data[i].pos[1])
-      this.objects.push(new LevelObject(data[i].id, data[i].name, pos, data[i].type, !!data[i].pickupable))
+      this.objects.push(new LevelObject(data[i].id, data[i].name, pos, data[i].type, !!data[i].pickupable, data[i].needs))
     }
   }
 

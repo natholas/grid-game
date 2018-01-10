@@ -35,7 +35,8 @@ export class LevelData {
         {
           id: 1,
           type: 'hole',
-          pos: [10, 9]
+          pos: [10, 9],
+          needs: [3]
         },
         {
           id: 2,

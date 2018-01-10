@@ -74,12 +74,34 @@ export class Character {
 
   public MoveInDir(dir: Vector): boolean {
     let canMove = this.level.tileWalkable(this.pos.add(dir))
+    let objects = this.level.getObjectsFromPos(this.pos.add(dir))
+    let meetsNeeds = this.hasWhatObjectsNeeds(objects)
     this.facing = this.vecToDir(dir)
-    if (canMove) {
+    if (canMove && meetsNeeds) {
       this.pos = this.pos.add(dir)
       this.level.processPos(this)
     }
     return canMove
+  }
+
+  private hasWhatObjectsNeeds(objs: LevelObject[]): boolean {
+    for (let obj of objs) {
+      if (!this.hasWhatObjectNeeds(obj)) return false
+    }
+    return true
+  }
+
+  private hasWhatObjectNeeds(obj: LevelObject): boolean {
+    for (let need of obj.needs) {
+      if (!this.getInventoryItemFromId(need)) return false
+    }
+    return true
+  }
+
+  private getInventoryItemFromId(id: number) {
+    for (let obj of this.inventory) {
+      if (obj.id === id) return obj
+    }
   }
 
   private stopWalkLoop() {
