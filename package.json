@@ -16,7 +16,6 @@
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
     "gulp-clean-css": "^3.9.0",
-    "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-typescript": "^3.2.2",
     "gulp-uglify": "^3.0.0",
@@ -29,6 +28,7 @@
   },
   "dependencies": {
     "del": "^3.0.0",
+    "natives": "^1.1.6",
     "requirejs": "^2.3.5"
   }
 }
